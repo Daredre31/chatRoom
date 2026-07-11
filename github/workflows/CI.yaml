@@ -1,0 +1,23 @@
+name: CHAT ACTION 
+
+on: 
+ push:
+   branch: [main]
+ pull_request: 
+   branch: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: readCode
+        uses: actions/checkout@v4
+
+      - name: setUp_node_v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: install_ci_dependency
+        run: npm ci
