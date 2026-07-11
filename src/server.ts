@@ -3,12 +3,14 @@ import { env } from './config/env'
 import { connectDB } from './config/db'
 import route from './Route/allRoute'
 
+
 const app = express()
 
 app.use(express.json())
 app.use('/api', route)
 
 const port = env.PORT
+
 
 const serverStart = async() => {
      try {
