@@ -5,6 +5,7 @@ import route from './Route/allRoute'
 import http from 'http'
 import { Server } from 'socket.io'
 import jwt from 'jsonwebtoken'
+import { MessageModel } from './Model/message'
 
 
 interface ClientTokenPayload {
@@ -72,13 +73,27 @@ io.on('connection' , (socket) => {
   console.log("everyone currently in this room:", room)
 })
 
-socket.on("message:client" , (data) => {
+socket.on("message:send" , async(data) => {
 
   const payload = socket.data.payload
   const isWorker = "workerId" in payload
 
-  console.log("is this sender a worker?", isWorker)
-  console.log("testing ",data)
+  const message = await MessageModel.create({
+    roomId: data.roomId,
+    senderType: isWorker ? "worker" : "client",
+    senderId: isWorker ? payload.workerId : undefined,
+    content: data.content,
+    readByWorker: isWorker
+  })
+
+  io.to(data.roomId).emit("message:new", {
+    _id: message._id,
+    roomId: data.roomId,
+    senderType: message.senderType,
+    content: message.content,
+    createdAt: message.createdAt,
+  })
+  console.log("message content" , message._id)
 })
 })
 const port = env.PORT

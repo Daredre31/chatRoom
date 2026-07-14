@@ -18,6 +18,10 @@ socket.on("connect" , ()=> {
 })
 
 
+socket.on("message:new" , (msg)=> {
+   console.log("new message received" , msg)
+})
+
 
 socket.on("connect_error" , (err)=> {
     console.log("error while connecting")

@@ -9,12 +9,15 @@ const socket = io("http://localhost:5000" , {
 socket.on("connect" , ()=> {
     console.log("i am client connected my socket id " , socket.id)
 
-    socket.emit("message:client" , {
+    socket.emit("message:send" , {
         room:"6a527afdbbeee8ed5b294be6",
         content:"i am client"
     })
 })
 
+socket.on("message:new" , (msg) => {
+    console.log("new message received" , msg)
+})
 
 socket.on("connect_error" , (err)=> {
     console.log("error while connecting")
