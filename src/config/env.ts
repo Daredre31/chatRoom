@@ -22,5 +22,6 @@ export const env = {
     SALT_ROUND:Number(optional("SALT_ROUND", "10")),
     JWT_SECRET:required("JWT_SECRET"),
     REDIS_URL:required("REDIS_URL"),
-    JWT_REFRESH:required("JWT_REFRESH")
+    JWT_REFRESH:required("JWT_REFRESH"),
+    CLIENT_URL:optional("CLIENT_URL" , "http://localhost:5173/")
 }

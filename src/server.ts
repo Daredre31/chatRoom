@@ -7,6 +7,10 @@ import { Server } from 'socket.io'
 import jwt from 'jsonwebtoken'
 import { MessageModel } from './Model/message'
 import { errorFunction } from './middleware/errorMiddleware'
+import cors from "cors"
+import helmet from 'helmet'
+import cookieparser from "cookie-parser"
+import morgan from "morgan"
 
 
 interface ClientTokenPayload {
@@ -22,13 +26,20 @@ type SocketTokenPayload = ClientTokenPayload | WorkerTokenPayload;
 
 const app = express()
 
+app.set("trust proxy", 1)
+app.use(helmet())
+app.use(cors({ origin: env.CLIENT_URL, credentials: true }))
 app.use(express.json())
+app.use(cookieparser())
+app.use(morgan("dev"))
+
 app.use('/api', route)
 
+app.use(errorFunction)
 const server = http.createServer(app)
 
 const io = new Server(server , {
-  cors: {origin:"*"}
+  cors: { origin: env.CLIENT_URL, credentials: true }
 })
 
 
