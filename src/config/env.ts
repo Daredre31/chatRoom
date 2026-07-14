@@ -21,5 +21,6 @@ export const env = {
     PORT:Number(optional("PORT" , "5000")),
     SALT_ROUND:Number(optional("SALT_ROUND", "10")),
     JWT_SECRET:required("JWT_SECRET"),
-    REDIS_URL:required("REDIS_URL")
+    REDIS_URL:required("REDIS_URL"),
+    JWT_REFRESH:required("JWT_REFRESH")
 }

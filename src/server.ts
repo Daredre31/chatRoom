@@ -6,6 +6,7 @@ import http from 'http'
 import { Server } from 'socket.io'
 import jwt from 'jsonwebtoken'
 import { MessageModel } from './Model/message'
+import { errorFunction } from './middleware/errorMiddleware'
 
 
 interface ClientTokenPayload {

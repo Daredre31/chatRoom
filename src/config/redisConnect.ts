@@ -1,19 +1,22 @@
 import Redis from "ioredis";
 import { env } from "./env";
 
-const redis = new Redis(env.REDIS_URL)
-
-if(!redis) {
-    throw new Error("there is erro with redis environment variable")
+if(!env.REDIS_URL) {
+    throw new Error("there is erro with redisClient environment variable")
 }
-redis.on("connect" , ()=> {
-    console.log("redis connected successfully")
+const redisClient = new Redis(env.REDIS_URL)
+
+
+redisClient.on("connect" , ()=> {
+    console.log("redisClient connected successfully")
 })
 
-redis.on("ready" , ()=> {
-    console.log("redis is ready for usage")
+redisClient.on("ready" , ()=> {
+    console.log("redisClient is ready for usage")
 })
 
-redis.on("error" , (err)=> {
+redisClient.on("error" , (err)=> {
     console.error(err)
 })
+
+export default redisClient

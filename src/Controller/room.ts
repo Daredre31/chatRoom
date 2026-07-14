@@ -7,6 +7,7 @@ import RoomModel from "../Model/Room"
 import { joinRoomSchema } from "../validation/zod";
 import { sendRes } from "../Utils/response";
 import { env } from "../config/env";
+import { AuthRequest } from "../middleware/auth";
 
 interface RoomTokenPayload {
   roomId: string;
@@ -78,7 +79,27 @@ class RoomController {
     } catch (err) {
       next(err);
     }
-  };
+  }
+
+  getworkerRoom = async (req:AuthRequest , res:Response , next:NextFunction) => {
+    try {
+      const workerId = req.user?.workerId
+
+      if(!workerId) {
+        return sendRes(res , 401 , false , "invalid user/authorised")
+      }
+
+      const rooms = await RoomModel.find({
+        workerId , status:"open"
+      }).sort({
+        lastMessage: -1
+      })
+
+      return sendRes(res, 200, true, "rooms fetched", { rooms })
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default new RoomController();

@@ -18,3 +18,8 @@ export const registerWorkerSchema = z.object({
   password: z.string().min(6),
   serviceId: z.string().min(1), // which service this worker belongs to
 });
+
+export const loginWorkerSchema = z.object({
+  email:z.string().email(),
+  password:z.string()
+})

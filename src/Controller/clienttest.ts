@@ -10,8 +10,8 @@ socket.on("connect" , ()=> {
     console.log("i am client connected my socket id " , socket.id)
 
     socket.emit("message:send" , {
-        room:"6a527afdbbeee8ed5b294be6",
-        content:"i am client"
+        roomId:"6a527afdbbeee8ed5b294be6",
+        content:"i wants a fullstack developer"
     })
 })
 

@@ -3,9 +3,12 @@ import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import WorkerModel from "../Model/worker";
 import ServiceModel from "../Model/service";
-import { registerWorkerSchema } from "../validation/zod";
+import {  registerWorkerSchema } from "../validation/zod";
 import { sendRes } from "../Utils/response";
 import { env } from "../config/env";
+import { v4 as uuid} from "uuid";
+import redis from "../config/redisConnect";
+import { Jwt } from "jsonwebtoken";
 
 class WorkerController {
   registerWorker = async (req: Request, res: Response, next: NextFunction) => {
@@ -62,7 +65,8 @@ class WorkerController {
     } catch (err) {
       next(err);
     }
-  };
+  }
+
 }
 
 export default new WorkerController();

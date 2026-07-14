@@ -2,7 +2,7 @@ import io from "socket.io-client"
 
 const socket = io("http://localhost:5000" , {
     auth : {
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3JrZXJJZCI6IjZhNTIyODZiMDc4MmRmZjRhYTE5ZDIyNyIsImlhdCI6MTc4Mzc5MjA1MSwiZXhwIjoxNzg0Mzk2ODUxfQ.-5x51qVJL7gXOnp5Kg5rXSRj_tCXpmGEA1XwxlrOq-s"
+        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3JrZXJJZCI6IjZhNTYwODE4ZjM4ZmM0YjliYmNlNzM2OSIsImlhdCI6MTc4NDAyNTc1NywiZXhwIjoxNzg0MTEyMTU3fQ.LNyeTAb8e8PPsE8fEerZbSKCpT-ABMjo6NapD1vLIBg"
     }
 })
 
@@ -13,7 +13,7 @@ socket.on("connect" , ()=> {
 
   socket.emit("message:send" , {
     roomId:"6a527afdbbeee8ed5b294be6",
-    content:"i am boy greetings yall"
+    content:"i am the fullstack developer"
   })
 })
 
