@@ -19,7 +19,7 @@ socket.on("connect" , ()=> {
 
 
 socket.on("message:new" , (msg)=> {
-   console.log("new message received" , msg)
+   console.log("new message received succesfuly" , msg)
 })
 
 
