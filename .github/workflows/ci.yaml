@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
 
       -  name: greetings
-         run: hello word
+         run: echo "hello word"
 
       - name: setUp_node_v20
         uses: actions/setup-node@v4
