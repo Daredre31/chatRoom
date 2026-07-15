@@ -13,6 +13,9 @@ jobs:
       - name: readCode
         uses: actions/checkout@v4
 
+      -  name: greetings
+         run: hello word
+
       - name: setUp_node_v20
         uses: actions/setup-node@v4
         with:
