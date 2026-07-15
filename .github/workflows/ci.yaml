@@ -2,9 +2,9 @@ name: CHAT ACTION
 
 on: 
  push:
-   branch: [main]
+   branches: [main]
  pull_request: 
-   branch: [main]
+   branches: [main]
 
 jobs:
   build-and-test:
@@ -13,13 +13,12 @@ jobs:
       - name: readCode
         uses: actions/checkout@v4
 
-      -  name: greetings
-         run: echo "hello word"
+   
 
-      - name: setUp_node_v20
+      - name: setUp_node_v24
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'npm'
 
       - name: install_ci_dependency
