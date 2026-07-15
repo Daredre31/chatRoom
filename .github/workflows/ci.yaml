@@ -1,10 +1,10 @@
-name: CHAT ACTION 
+name: CHAT ACTION
 
-on: 
- push:
-   branches: [main]
- pull_request: 
-   branches: [main]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   build-and-test:
@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: readCode
         uses: actions/checkout@v4
-
-   
 
       - name: setUp_node_v24
         uses: actions/setup-node@v4
@@ -23,3 +21,12 @@ jobs:
 
       - name: install_ci_dependency
         run: npm ci
+
+      - name: type_check
+        run: npx tsc --noEmit
+
+      - name: check_docker_build
+        run: docker build -t chatapp .
+
+      - name: validate_docker_compose
+        run: docker compose config
