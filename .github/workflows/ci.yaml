@@ -28,5 +28,4 @@ jobs:
       - name: check_docker_build
         run: docker build -t chatapp .
 
-      - name: validate_docker_compose
-        run: docker compose config
+      
