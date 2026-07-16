@@ -13,5 +13,6 @@ route.get('/service/allservice', createNewService.getservice)
 route.post('/worker/signup', workerRegistration.registerWorker)
 route.post('/worker/login' , workerLogin.loginWorker)
 route.get('/room/mine' ,protect, room.getworkerRoom)
+route.post('/refresh', workerLogin.refreshAccessToken)
 
 export default route

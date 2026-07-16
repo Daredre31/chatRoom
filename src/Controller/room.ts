@@ -92,7 +92,7 @@ class RoomController {
       const rooms = await RoomModel.find({
         workerId , status:"open"
       }).sort({
-        lastMessage: -1
+        lastMessageAt: -1
       })
 
       return sendRes(res, 200, true, "rooms fetched", { rooms })
