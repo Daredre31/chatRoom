@@ -23,5 +23,5 @@ export const env = {
     JWT_SECRET:required("JWT_SECRET"),
     REDIS_URL:required("REDIS_URL"),
     JWT_REFRESH:required("JWT_REFRESH"),
-    CLIENT_URL:optional("CLIENT_URL" , "http://localhost:5173/")
+    CLIENT_URL:optional("CLIENT_URL" , "http://localhost:5173")
 }
