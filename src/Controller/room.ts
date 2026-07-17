@@ -8,6 +8,7 @@ import { joinRoomSchema } from "../validation/zod";
 import { sendRes } from "../Utils/response";
 import { env } from "../config/env";
 import { AuthRequest } from "../middleware/auth";
+import { MessageModel } from "../Model/message";
 
 interface RoomTokenPayload {
   roomId: string;
@@ -100,6 +101,61 @@ class RoomController {
       next(error)
     }
   }
+
+  // returns full message history for a room
+  // works for both client and worker, since they carry different token shapes
+  getRoomMessages = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { roomId } = req.params;
+      const authHeader = req.headers.authorization;
+
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return sendRes(res, 401, false, "no token provided", null);
+      }
+
+            const parts = authHeader.split(" ");
+            const token = parts[1];
+
+            if (!token) {
+              return sendRes(res, 401, false, "malformed authorization header", null);
+            }
+
+      let decoded: any;
+      try {
+        decoded = jwt.verify(token, env.JWT_SECRET);
+      } catch {
+        return sendRes(res, 401, false, "invalid or expired token", null);
+      }
+
+      // client tokens carry roomId, worker tokens carry workerId
+      // same shape distinction your socket middleware already relies on
+      if ("roomId" in decoded) {
+        // client can only ever see their own room
+        if (decoded.roomId !== roomId) {
+          return sendRes(res, 403, false, "not permitted to view this room", null);
+        }
+      } else if ("workerId" in decoded) {
+        // worker can only see rooms assigned to them
+        const room = await RoomModel.findById(roomId);
+
+        if (!room) {
+          return sendRes(res, 404, false, "room not found", null);
+        }
+
+        if (room.workerId.toString() !== decoded.workerId) {
+          return sendRes(res, 403, false, "not permitted to view this room", null);
+        }
+      } else {
+        return sendRes(res, 401, false, "invalid token payload", null);
+      }
+
+      const messages = await MessageModel.find({ roomId }).sort({ createdAt: 1 });
+
+      return sendRes(res, 200, true, "messages fetched", { messages });
+    } catch (err) {
+      next(err);
+    }
+  };
 }
 
 export default new RoomController();
